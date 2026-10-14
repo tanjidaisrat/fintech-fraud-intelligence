@@ -1,0 +1,6 @@
+
+# Exclude large dataset files
+data/*.csv
+.DS_Store
+
+
