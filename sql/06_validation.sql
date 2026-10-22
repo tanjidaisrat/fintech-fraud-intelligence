@@ -6,12 +6,12 @@
 SELECT COUNT(*) AS total_transactions
 FROM transactions_raw;
 
--- 2. Validate fraud labels
+-- 2. Validate fraud labels and system flags
 SELECT
-    COUNT(*) FILTER (WHERE isFraud NOT IN (0, 1))
-        AS invalid_fraud_labels,
-    COUNT(*) FILTER (WHERE isFlaggedFraud NOT IN (0, 1))
-        AS invalid_system_flag_values
+    COUNT(*) FILTER (WHERE isFraud IS NULL) AS missing_fraud_labels,
+    COUNT(*) FILTER (WHERE isFlaggedFraud IS NULL) AS missing_system_flags,
+    COUNT(*) FILTER (WHERE isFraud IS NOT NULL AND isFraud NOT IN (0, 1)) AS invalid_fraud_labels,
+    COUNT(*) FILTER (WHERE isFlaggedFraud IS NOT NULL AND isFlaggedFraud NOT IN (0, 1)) AS invalid_system_flag_values
 FROM transactions_raw;
 
 -- 3. Check negative amounts

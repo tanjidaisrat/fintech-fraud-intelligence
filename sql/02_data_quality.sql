@@ -16,7 +16,8 @@ SELECT
     COUNT(*) FILTER (WHERE amount IS NULL) AS missing_amount,
     COUNT(*) FILTER (WHERE nameOrig IS NULL) AS missing_origin,
     COUNT(*) FILTER (WHERE nameDest IS NULL) AS missing_destination,
-    COUNT(*) FILTER (WHERE isFraud IS NULL) AS missing_fraud_flag
+    COUNT(*) FILTER (WHERE isFraud IS NULL) AS missing_fraud_flag,
+    COUNT(*) FILTER (WHERE isFlaggedFraud IS NULL) AS missing_system_flag
 FROM transactions_raw;
 
 -- 3. Check duplicate transaction rows

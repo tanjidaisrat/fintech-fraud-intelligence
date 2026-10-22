@@ -91,32 +91,3 @@ SELECT
     ) AS mismatch_percentage
 FROM transactions_raw
 WHERE isFraud = 1;
--- Project: Fintech Fraud Intelligence
--- File: 02_fraud_analysis.sql
--- Purpose: Fraud analysis and detection performance
-
--- 1. Overall fraud prevalence
-SELECT
-    isFraud,
-    COUNT(*) AS transaction_count,
-    ROUND(
-        COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (),
-        2
-    ) AS percentage
-FROM transactions_raw
-GROUP BY isFraud
-ORDER BY isFraud DESC;
-
--- 2. Fraud rate by transaction type
-SELECT
-    type,
-    COUNT(*) AS total_transactions,
-    SUM(isFraud) AS fraud_transactions,
-    ROUND(
-        SUM(isFraud) * 100.0 / COUNT(*),
-        2
-    ) AS fraud_rate_percentage
-FROM transactions_raw
-GROUP BY type
-ORDER BY fraud_rate_percentage DESC;
-
