@@ -1,22 +1,11 @@
 -- ============================================================
 -- Fintech Fraud Intelligence
 -- File: 05_risk_scoring.sql
--- Purpose: Evaluate existing fraud flags and risk indicators
--- Note: This is rule-based analysis, not a trained ML model
+-- Purpose: Analyze fraud detection rate and risk indicators
+-- Note: Rule-based analysis, not a trained ML model
 -- ============================================================
 
--- 1. Compare fraud labels with existing system flags
-SELECT
-    isFlaggedFraud,
-    COUNT(*) AS total_transactions,
-    COUNT(*) FILTER (WHERE isFraud = 1) AS actual_fraud_transactions,
-    COUNT(*) FILTER (WHERE isFraud = 1 AND isFlaggedFraud = 1)
-        AS frauds_flagged_by_system
-FROM transactions_raw
-GROUP BY isFlaggedFraud
-ORDER BY isFlaggedFraud;
-
--- 2. Measure how many known fraud cases were flagged
+-- 1. Measure how many known fraud cases were flagged
 SELECT
     COUNT(*) FILTER (WHERE isFraud = 1) AS total_fraud_cases,
     COUNT(*) FILTER (
@@ -31,7 +20,7 @@ SELECT
     ) AS fraud_detection_rate_pct
 FROM transactions_raw;
 
--- 3. Review fraud cases by transaction type and amount band
+-- 2. Review fraud cases by transaction type and amount band
 SELECT
     type,
     CASE
